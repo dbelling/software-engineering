@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>GRADS.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</a> &gt; <a href="../../index.html" class="el_group">GRADS</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.umn.csci5801</a> &gt; <span class="el_source">GRADS.java</span></div><h1>GRADS.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">/**</span>
+ * GRADS
+ */
+
+package edu.umn.csci5801;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import edu.umn.csci5801.model.CourseArea;
+import edu.umn.csci5801.model.CourseMapping;
+import edu.umn.csci5801.model.CourseTaken;
+import edu.umn.csci5801.model.DegreeSought;
+import edu.umn.csci5801.model.Grade;
+import edu.umn.csci5801.model.Milestone;
+import edu.umn.csci5801.model.Milestones_All_Plans;
+import edu.umn.csci5801.model.PermissionMapping;
+import edu.umn.csci5801.model.ProgressSummary;
+import edu.umn.csci5801.model.RequirementCheck;
+import edu.umn.csci5801.model.Role;
+import edu.umn.csci5801.model.StudentRecord;
+import edu.umn.csci5801.exceptions.ExCantLoadCourses;
+import edu.umn.csci5801.exceptions.ExCantLoadRecords;
+import edu.umn.csci5801.exceptions.ExCantLoadUsers;
+import edu.umn.csci5801.exceptions.ExDataNotSaved;
+import edu.umn.csci5801.exceptions.ExFatalError;
+import edu.umn.csci5801.exceptions.ExIdNotFound;
+import edu.umn.csci5801.exceptions.ExIncorrectPermissions;
+import edu.umn.csci5801.exceptions.ExInvalidGpaType;
+import edu.umn.csci5801.exceptions.ExInvalidNullParameter;
+import edu.umn.csci5801.exceptions.ExNoCoursesTaken;
+import edu.umn.csci5801.exceptions.ExNoData;
+
+/**
+ * This class acts implements the GRADSIntf interface
+ * and contains the primary processing code for checking
+ * and generating the graduation progress summary.
+ */
+
+<span class="fc" id="L47">public class GRADS implements GRADSIntf {</span>
+
+    private static PermissionMapping currentUser;
+    private static List&lt;PermissionMapping&gt; users;
+    private static List&lt;CourseMapping&gt; courses;
+    private static List&lt;StudentRecord&gt; records;
+<span class="fc" id="L53">    private boolean usersRead = false;</span>
+<span class="fc" id="L54">    private boolean coursesRead = false;</span>
+<span class="fc" id="L55">    private boolean recordsRead = false;</span>
+    
+    private String recordsPath;
+    
+    /**
+     * Loads the list of system user names and permissions.
+     * @param usersFile the filename of the users file.
+     * @throws Exception for I/O errors.
+     */
+    public void loadUsers(String usersFile) throws Exception {
+    	try {
+<span class="fc" id="L66">        	users = new Gson().fromJson( new FileReader( new File(usersFile)), new TypeToken&lt;List&lt;PermissionMapping&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L67">        	usersRead = true;</span>
+<span class="fc" id="L68">    	} catch (Exception e){</span>
+<span class="fc" id="L69">    		throw new ExCantLoadUsers();</span>
+    	}
+<span class="fc" id="L71">    }</span>
+    
+    /**
+     * Loads the list of courses.
+     * @param coursesFile the filename of the users file.
+     * @throws Exception for I/O errors.  
+     */
+    public void loadCourses(String coursesFile) throws Exception {
+    	try {
+<span class="fc" id="L80">        	courses = new Gson().fromJson( new FileReader( new File(coursesFile)), new TypeToken&lt;List&lt;CourseMapping&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L81">        	coursesRead = true;</span>
+<span class="fc" id="L82">    	} catch (Exception e){</span>
+<span class="fc" id="L83">    		throw new ExCantLoadCourses();</span>
+    	}
+<span class="fc" id="L85">    }</span>
+    
+    /**
+     * Loads the list of system transcripts.
+     * @param recordsFile the filename of the transcripts file.
+     * @throws Exception for I/O errors.
+     */
+    public void loadRecords(String recordsFile) throws Exception {
+    	try {
+<span class="fc" id="L94">        	records = new Gson().fromJson( new FileReader( new File(recordsFile)), new TypeToken&lt;List&lt;StudentRecord&gt;&gt;(){}.getType());</span>
+<span class="fc" id="L95">        	recordsPath = recordsFile;</span>
+<span class="fc" id="L96">        	recordsRead = true;</span>
+<span class="fc" id="L97">    	} catch (Exception e){</span>
+<span class="fc" id="L98">    		throw new ExCantLoadRecords();</span>
+    	}
+<span class="fc" id="L100">    }</span>
+    
+    private void checkDataExist() throws Exception {
+<span class="pc bpc" id="L103" title="3 of 6 branches missed.">    	if (usersRead == false || coursesRead == false || recordsRead == false) {</span>
+<span class="nc" id="L104">    		throw new ExNoData();</span>
+    	}
+<span class="fc" id="L106">    }</span>
+    
+    /**
+     * Sets the user id (X500) of the user currently using the system.
+     * @param userId  the X500 id of the user generating progress summaries.
+     * @throws Exception  if the user id is invalid.
+     */
+    public void setUser(String userId) throws Exception {
+<span class="fc" id="L114">    	checkDataExist();</span>
+    	
+        //check if user is valid
+<span class="fc bfc" id="L117" title="All 2 branches covered.">    	for (PermissionMapping i : users) {</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">    		if (i.id.equals(userId)) {</span>
+<span class="fc" id="L119">    			currentUser = i;</span>
+<span class="fc" id="L120">    			return;</span>
+    		}
+    	}
+<span class="fc" id="L123">    	throw new ExIdNotFound(userId); // Id is not valid.</span>
+    }
+    
+    /**
+     * Gets the user id of the user currently using the system.
+     * @return the X500 user id of the user currently using the system.
+     */
+    public String getUser() {
+<span class="fc" id="L131">        return currentUser.id;</span>
+    }
+    
+    /**
+     * Gets a list of the userIds of the students that a GPC can view.
+     * @return a list containing the userId of for each student in the
+     *         system belonging to the current user
+     * @throws Exception is the current user is not a GPC.
+     */
+    public List&lt;String&gt; getStudentIDs() throws Exception {
+<span class="fc" id="L141">    	checkDataExist();</span>
+    	
+<span class="fc bfc" id="L143" title="All 2 branches covered.">    	if (currentUser.role == Role.GRADUATE_PROGRAM_COORDINATOR) {</span>
+<span class="fc" id="L144">    		List&lt;String&gt; studentIDs = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L145" title="All 2 branches covered.">    		for (StudentRecord i : records) {</span>
+<span class="fc" id="L146">    			studentIDs.add(i.getStudent().id);</span>
+    		}
+<span class="fc" id="L148">    		return studentIDs;</span>
+    	} else {
+<span class="fc" id="L150">    		throw new ExIncorrectPermissions(); // Wrong role</span>
+    	}
+    }
+    
+    /**
+     * Gets the raw student record data for a given userId.
+     * @param userId  the identifier of the student.
+     * @return the student record data.
+     * @throws Exception  if the form data could not be retrieved.
+     */
+    public StudentRecord getTranscript(String userId) throws Exception {
+<span class="fc" id="L161">    	checkDataExist();</span>
+    	
+<span class="fc bfc" id="L163" title="All 2 branches covered.">    	for (StudentRecord i : records) {</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">    		if(i.getStudent().id.equals(userId)) {</span>
+    			/* Throw exception unless current user is GPC or else a student requesting own transcript. */
+<span class="fc bfc" id="L166" title="All 4 branches covered.">    			if((currentUser.role == Role.GRADUATE_PROGRAM_COORDINATOR) || currentUser.id.equals(userId)) { </span>
+<span class="fc" id="L167">    				return i;</span>
+    			} else {
+<span class="fc" id="L169">    				throw new ExIncorrectPermissions();</span>
+    			}
+    		}
+    	}
+    	
+<span class="fc" id="L174">    	throw new ExIdNotFound(userId); // ID doesn't exist</span>
+    }
+    
+    /**
+     * Saves a new set of student data to the records data.
+     * @param userId the student ID to overwrite.
+     * @param transcript  the new student record
+     * @throws Exception  if the transcript data could not be saved, failed
+     * a validity check, or a non-GPC tries to call.
+     */
+    public void updateTranscript(String userId, StudentRecord transcript)
+            throws Exception {
+<span class="fc" id="L186">    	checkDataExist();</span>
+    	
+<span class="fc bfc" id="L188" title="All 2 branches covered.">    	if (currentUser.role == Role.GRADUATE_PROGRAM_COORDINATOR) {</span>
+<span class="fc" id="L189">    		StudentRecord currentRecord = getTranscript(userId);</span>
+<span class="fc" id="L190">        	currentRecord.setStudent(transcript.getStudent());</span>
+<span class="fc" id="L191">        	currentRecord.setDepartment(transcript.getDepartment());</span>
+<span class="fc" id="L192">        	currentRecord.setDegreeSought(transcript.getDegreeSought());</span>
+<span class="fc" id="L193">        	currentRecord.setTerm(transcript.getTerm());</span>
+<span class="fc" id="L194">        	currentRecord.setAdvisors(transcript.getAdvisors());</span>
+<span class="fc" id="L195">        	currentRecord.setCommittee(transcript.getCommittee());</span>
+<span class="fc" id="L196">        	currentRecord.setCoursesTaken(transcript.getCoursesTaken());</span>
+<span class="fc" id="L197">        	currentRecord.setMilestonesSet(transcript.getMilestonesSet());</span>
+        	//currentRecord.setNotes(transcript.getNotes());
+        	
+        	try {
+<span class="fc" id="L201">        		String representation = new GsonBuilder().setPrettyPrinting().create().toJson(records);</span>
+<span class="fc" id="L202">        		PrintWriter writer = new PrintWriter(recordsPath);</span>
+<span class="fc" id="L203">        		writer.print(representation);</span>
+<span class="fc" id="L204">        		writer.close();</span>
+<span class="pc" id="L205">        	} catch (Exception e) {</span>
+<span class="nc" id="L206">        		throw new ExDataNotSaved();</span>
+        	}
+        	
+    	} else {
+<span class="fc" id="L210">    		throw new ExIncorrectPermissions();</span>
+    	}
+    	
+<span class="fc" id="L213">    }</span>
+    
+    /**
+     * Appends a note to a student record.
+     * @param userId the student ID to add a note to.
+     * @param note  the note to append
+     * @throws Exception  if the note could not be saved or a non-GPC tries to call.
+     */
+    public void addNote(String userId, String note)
+            throws Exception {
+<span class="fc" id="L223">    	checkDataExist();</span>
+    	
+<span class="fc bfc" id="L225" title="All 2 branches covered.">    	if (currentUser.role == Role.GRADUATE_PROGRAM_COORDINATOR) {</span>
+<span class="fc" id="L226">    		StudentRecord currentRecord = getTranscript(userId);</span>
+<span class="fc" id="L227">            List&lt;String&gt; currentNote = currentRecord.getNotes();</span>
+<span class="fc" id="L228">            currentNote.add(note);</span>
+<span class="fc" id="L229">            currentRecord.setNotes(currentNote);</span>
+            
+            try {
+<span class="fc" id="L232">        		String representation = new GsonBuilder().setPrettyPrinting().create().toJson(records);</span>
+<span class="fc" id="L233">        		PrintWriter writer = new PrintWriter(recordsPath);</span>
+<span class="fc" id="L234">        		writer.print(representation);</span>
+<span class="fc" id="L235">        		writer.close();</span>
+<span class="pc" id="L236">        	} catch (Exception e) {</span>
+<span class="nc" id="L237">        		throw new ExDataNotSaved();</span>
+        	}
+            
+    	} else {
+<span class="fc" id="L241">    		throw new ExIncorrectPermissions();</span>
+    	}
+<span class="fc" id="L243">    }</span>
+    
+    /**
+     * Generates progress summary
+     * @param userId the student to generate the record for.
+     * @return the student's progress summary in a data class matching the JSON format.
+     * @throws Exception  if the progress summary could not be generated.
+     */
+    public ProgressSummary generateProgressSummary(String userId) throws Exception {
+<span class="pc bpc" id="L252" title="1 of 4 branches missed.">    	if(currentUser.role != Role.GRADUATE_PROGRAM_COORDINATOR &amp;&amp; !currentUser.id.equals(userId)) {</span>
+<span class="nc" id="L253">    		throw new ExIncorrectPermissions(currentUser.id, userId);</span>
+    	}
+    	
+<span class="fc" id="L256">    	checkDataExist();</span>
+    	
+	/* Exception will be thrown if GRADS is unable to get the transcript. */
+<span class="fc" id="L259">    	StudentRecord currentRecord = getTranscript(userId);</span>
+    	
+	/* If we were able to load the transcript, go ahead and copy the values into result.
+	   Some of these values may be null. */
+<span class="fc" id="L263">    	ProgressSummary result = new ProgressSummary();</span>
+<span class="fc" id="L264">    	result.setStudent(currentRecord.getStudent());</span>
+<span class="fc" id="L265">    	result.setDepartment(currentRecord.getDepartment());</span>
+<span class="fc" id="L266">    	result.setDegreeSought(currentRecord.getDegreeSought());</span>
+<span class="fc" id="L267">    	result.setTerm(currentRecord.getTerm());</span>
+<span class="fc" id="L268">    	result.setAdvisors(currentRecord.getAdvisors());</span>
+<span class="fc" id="L269">    	result.setCommittee(currentRecord.getCommittee());</span>
+<span class="fc" id="L270">    	result.setRequirementCheckResults(requirementCheck(userId));</span>
+    	
+<span class="fc" id="L272">    	return result;</span>
+    }
+    
+    /**
+     * Generates a new progress summary, assuming that the student passes the
+     * provided set of prospective courses.
+     * @param userId the student to generate the record for.
+     * @param courses a list of the prospective courses.
+     * @return a map containing the student's hypothetical progress summary
+     * @throws Exception  if the progress summary could not be generated or the courses
+     * are invalid.
+     */
+    public ProgressSummary simulateCourses(String userId, List&lt;CourseTaken&gt; courses) 
+    	throws Exception {
+<span class="pc bpc" id="L286" title="1 of 4 branches missed.">    	if(currentUser.role != Role.GRADUATE_PROGRAM_COORDINATOR &amp;&amp; !currentUser.id.equals(userId)) {</span>
+<span class="fc" id="L287">    		throw new ExIncorrectPermissions();</span>
+    	}
+    	
+<span class="fc" id="L290">    	checkDataExist();</span>
+    	
+	/* If there is a problem getting the transcript, getTranscript will throw an exception. */    
+<span class="fc" id="L293">    	StudentRecord currentRecord = getTranscript(userId);</span>
+    	/* Attempt to load courses taken. If no courses have yet been taken, throw an exception. */
+<span class="fc" id="L295">    	List&lt;CourseTaken&gt; oldCourseTaken = currentRecord.getCoursesTaken();</span>
+    	
+    	/* Cannot call this method with a null parameter for courses */
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">    	if(courses == null) {</span>
+<span class="nc" id="L299">    		throw new ExInvalidNullParameter();</span>
+    	}
+    	
+    	/* Make sure that the student has taken at least one course already. */
+<span class="pc bpc" id="L303" title="1 of 2 branches missed.">    	if(oldCourseTaken == null) {</span>
+<span class="nc" id="L304">    		throw new ExNoCoursesTaken();</span>
+    	}
+    	
+    	/* Create alternate course list containing the extra course(s). */
+<span class="fc" id="L308">    	List&lt;CourseTaken&gt; newCoursesTaken = new ArrayList&lt;CourseTaken&gt;();</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">    	for(int i = 0; i &lt; oldCourseTaken.size(); i++) {</span>
+<span class="fc" id="L310">    		newCoursesTaken.add(oldCourseTaken.get(i));</span>
+    	}
+<span class="fc bfc" id="L312" title="All 2 branches covered.">    	for(int i = 0; i &lt; courses.size(); i++) {</span>
+<span class="fc" id="L313">    		newCoursesTaken.add(courses.get(i));</span>
+    	}
+    	
+<span class="fc" id="L316">    	currentRecord.setCoursesTaken(newCoursesTaken); // Replace by using new courseTaken</span>
+    	
+<span class="fc" id="L318">    	ProgressSummary result = new ProgressSummary();</span>
+<span class="fc" id="L319">    	result.setStudent(currentRecord.getStudent());</span>
+<span class="fc" id="L320">    	result.setDepartment(currentRecord.getDepartment());</span>
+<span class="fc" id="L321">    	result.setDegreeSought(currentRecord.getDegreeSought());</span>
+<span class="fc" id="L322">    	result.setTerm(currentRecord.getTerm());</span>
+<span class="fc" id="L323">    	result.setAdvisors(currentRecord.getAdvisors());</span>
+<span class="fc" id="L324">    	result.setCommittee(currentRecord.getCommittee());</span>
+<span class="fc" id="L325">    	result.setRequirementCheckResults(requirementCheck(userId));</span>
+    	
+<span class="fc" id="L327">    	currentRecord.setCoursesTaken(oldCourseTaken); // Replace back</span>
+<span class="fc" id="L328">    	return result;</span>
+    }
+    
+    /**
+     * Calculates the GPA of a specified type for a specific student
+     * @param userId the student to calculate the GPA for
+     * @param gpaType the type of GPA to calculate; one of:
+     *          - OVERALL
+     *          - IN_PROGRAM
+     *          - BREADTH_REQUIREMENT
+     * @return the calculated GPA value of the type specified by the input
+     *         parameter
+     */
+    protected double calculateGPA(String userId, String gpaType) throws Exception {
+<span class="fc" id="L342">    	checkDataExist();</span>
+    	
+<span class="fc" id="L344">    	double runningTotal = 0, totalCredits = 0;</span>
+    	
+<span class="pc bpc" id="L346" title="1 of 6 branches missed.">    	if (gpaType != &quot;OVERALL&quot; &amp;&amp; gpaType != &quot;IN_PROGRAM&quot; &amp;&amp; gpaType != &quot;BREADTH_REQUIREMENT&quot;) {</span>
+<span class="nc" id="L347">    		throw new ExInvalidGpaType();</span>
+    	}
+    	
+<span class="pc bpc" id="L350" title="1 of 2 branches missed.">    	if(getTranscript(userId).getCoursesTaken() == null) {</span>
+<span class="nc" id="L351">    		return 0;</span>
+    	}
+    	
+<span class="fc bfc" id="L354" title="All 2 branches covered.">    	for (CourseTaken currentCourse : getTranscript(userId).getCoursesTaken()) {</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">    		if (currentCourse.grade == Grade.S) continue;</span>
+    		/* If overall gpa was requested, we want all courses to count. */
+<span class="fc" id="L357">    		boolean courseCounted = gpaType.equals(&quot;OVERALL&quot;);</span>
+
+    		/* If it's in program, we only count it if it's a csci course. */
+<span class="fc bfc" id="L360" title="All 4 branches covered.">    		if (gpaType.equals(&quot;IN_PROGRAM&quot;) &amp;&amp; currentCourse.course.id.startsWith(&quot;csci&quot;)) {</span>
+<span class="fc" id="L361">    			courseCounted = true;</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">    		} else if(gpaType.equals(&quot;BREADTH_REQUIREMENT&quot;)) {</span>
+    			/* If we want a breadth requirement GPA, we must make sure that this is a breadth requirement course. */
+    			/* Now check every CourseMapping to find a match. This is inefficient, 
+				   but it matches the class structure we were told to use, and realistically,
+				   it is unlikely that anybody will complain about the tiny extra delay that
+				   this causes. If we someday have a billion courses, then it might be more 
+				   of an issue. */
+<span class="fc bfc" id="L369" title="All 2 branches covered.">    				for (CourseMapping mapping : courses) {</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">    					if (mapping.id.equals(currentCourse.course.id)) {</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">    						if(mapping.courseArea != null) {</span>
+<span class="fc" id="L372">    							courseCounted = true;</span>
+    						}
+    					}
+    				}
+    		}
+
+    		/* Update counters if necessary. */
+<span class="fc bfc" id="L379" title="All 2 branches covered.">    		if (courseCounted) {</span>
+<span class="fc" id="L380">    			totalCredits += Integer.parseInt(currentCourse.course.numCredits);</span>
+<span class="fc" id="L381">    			runningTotal += (double)currentCourse.grade.getGpa()*Double.parseDouble(currentCourse.course.numCredits);</span>
+    		}
+    	}
+    	
+<span class="fc bfc" id="L385" title="All 2 branches covered.">    	if (totalCredits == 0) return 0;</span>
+<span class="fc" id="L386">    	return runningTotal / totalCredits;</span>
+    }
+    
+    /**
+     * Calculates the required GPA level of a specified type for a specific 
+     * student based on the type of degree they are seeking
+     * @param userId the student to calculate the GPA for
+     * @param gpaType the type of GPA to calculate; one of:
+     *          - OVERALL
+     *          - IN_PROGRAM
+     *          - BREADTH_REQUIREMENT
+     * @return the required GPA value of the type specified by the input
+     *         parameter
+     */
+    protected double calculateRequiredGPALevel(String userId, String gpaType) throws Exception {
+<span class="fc" id="L401">    	checkDataExist();</span>
+    	
+<span class="fc" id="L403">    	StudentRecord currentRecord = getTranscript(userId);</span>
+<span class="fc" id="L404">    	double result = 0;</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">    	if (gpaType.equals(&quot;OVERALL&quot;)) {</span>
+<span class="pc bpc" id="L406" title="1 of 5 branches missed.">    		switch (currentRecord.getDegreeSought()) {</span>
+<span class="fc" id="L407">    			case PHD: result = 3.45; break;</span>
+<span class="fc" id="L408">    			case MS_A: result = 3.25; break;</span>
+<span class="fc" id="L409">    			case MS_B: result = 3.25; break;</span>
+<span class="fc" id="L410">    			case MS_C: result = 3.25; break;</span>
+<span class="nc" id="L411">    			default: throw new ExFatalError(); //student must have valid degreeSought</span>
+    		}
+<span class="nc" id="L413">    	}</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">    	else if (gpaType.equals(&quot;IN_PROGRAM&quot;)) {</span>
+<span class="pc bpc" id="L415" title="1 of 5 branches missed.">    		switch (currentRecord.getDegreeSought()) {</span>
+<span class="fc" id="L416">    			case PHD: result = 3.45; break;</span>
+<span class="fc" id="L417">    			case MS_A: result = 3.25; break;</span>
+<span class="fc" id="L418">    			case MS_B: result = 3.25; break;</span>
+<span class="fc" id="L419">    			case MS_C: result = 3.25; break;</span>
+<span class="nc" id="L420">    			default: throw new ExFatalError(); //student must have valid degreeSought</span>
+    		}
+<span class="nc" id="L422">    	}</span>
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">    	else if (gpaType.equals(&quot;BREADTH_REQUIREMENT&quot;)) {</span>
+<span class="pc bpc" id="L424" title="1 of 5 branches missed.">    		switch (currentRecord.getDegreeSought()) {</span>
+<span class="fc" id="L425">    			case PHD: result = 3.45; break;</span>
+<span class="fc" id="L426">    			case MS_A: result = 3.25; break;</span>
+<span class="fc" id="L427">    			case MS_B: result = 3.25; break;</span>
+<span class="fc" id="L428">    			case MS_C: result = 3.25; break;</span>
+<span class="nc" id="L429">    			default: throw new ExFatalError(); //student must have valid degreeSought</span>
+    		}
+<span class="nc" id="L431">    	}</span>
+    	else {
+<span class="nc" id="L433">    		throw new ExInvalidGpaType(); //input gpaType is not valid</span>
+    	}
+<span class="fc" id="L435">        return result;</span>
+    }
+    
+    
+    /**
+     * Retrieves the list of RequirementChecks for a given student specifying 
+     * which requirements the student has or has not passed
+     * @param userId the student to retrieve RequirementChecks for
+     * @param courses the list of courses the student has taken
+     * @param milestones the list of milestones for the student's degree sought
+     * @return the list of RequirementChecks for the input student
+     */
+    private List&lt;RequirementCheck&gt; requirementCheck(String userId) throws Exception {
+<span class="fc" id="L448">    	checkDataExist();</span>
+    	
+<span class="fc" id="L450">        StudentRecord currentRecord = getTranscript(userId);</span>
+<span class="fc" id="L451">        List&lt;CourseTaken&gt; currentCourses = currentRecord.getCoursesTaken();</span>
+<span class="fc" id="L452">        List&lt;Milestone&gt; currentMilestones = currentRecord.getMilestonesSet();</span>
+        
+<span class="fc" id="L454">        List&lt;RequirementCheck&gt; result = new ArrayList&lt;RequirementCheck&gt;();</span>
+        
+        // Add final result at first place
+<span class="fc" id="L457">        RequirementCheck first = new RequirementCheck();</span>
+<span class="fc" id="L458">        first.name = &quot;DEGREE_SOUGHT&quot;;</span>
+<span class="fc" id="L459">        first.passed = true;</span>
+<span class="fc" id="L460">        first.details.notes = currentRecord.getNotes();</span>
+<span class="fc" id="L461">        result.add(first);</span>
+        // END
+        
+<span class="pc bpc" id="L464" title="1 of 5 branches missed.">        switch(currentRecord.getDegreeSought()) {</span>
+        	case PHD:
+<span class="fc" id="L466">        		checkPHD(userId, currentCourses, currentMilestones, result);</span>
+<span class="fc" id="L467">        		break;</span>
+        	case MS_A:
+<span class="fc" id="L469">        		checkMS_A(userId, currentCourses, currentMilestones, result);</span>
+<span class="fc" id="L470">        		break;</span>
+        	case MS_B:
+<span class="fc" id="L472">        		checkMS_B(userId, currentCourses, currentMilestones, result);</span>
+<span class="fc" id="L473">        		break;</span>
+        	case MS_C:
+<span class="fc" id="L475">        		checkMS_C(userId, currentCourses, currentMilestones, result);</span>
+<span class="fc" id="L476">        		break;</span>
+        	default:
+<span class="nc" id="L478">        		throw new ExFatalError(); // Should not be here;</span>
+        }
+        
+<span class="fc" id="L481">        return result;</span>
+    }
+    
+    // ----------------------------------------------------------
+    // Overall Check for PhD
+    // ----------------------------------------------------------
+    
+    /**
+      * Performs the overall check for PhD students
+      * @param userId the student to perform the PhD check on
+      * @param currentCourses courses the student has taken
+      * @param currentMilestones milestones the student has completed
+      * @param result the list of RequirementChecks the student has completed - will be modified within function
+      */
+    private void checkPHD(String userId, List&lt;CourseTaken&gt; currentCourses, List&lt;Milestone&gt; currentMilestones, List&lt;RequirementCheck&gt; result) throws Exception {
+<span class="fc" id="L496">    	checkDataExist();</span>
+    	
+    	// 31 credits in total, 16 CSci credits, 5 breath courses, CSci 8970
+<span class="fc" id="L499">    	checkCreditsRequirements(userId, currentCourses, 31, 16, 15, result);</span>
+<span class="fc" id="L500">    	checkSingleCourse(currentCourses, &quot;COLLOQUIUM&quot;, &quot;csci8970&quot;, 0, &quot;S&quot;, result);</span>
+    	
+    	// 10 Thesis Credits   	
+<span class="fc" id="L503">    	checkSingleCourse(currentCourses, &quot;THESIS_PHD&quot;, &quot;csci8888&quot;, 10, &quot;S&quot;, result);</span>
+    	
+    	// Out of department credits
+    	// --------------------------------------
+<span class="fc" id="L507">    	RequirementCheck outOfDepartment = new RequirementCheck();</span>
+<span class="fc" id="L508">    	outOfDepartment.name = &quot;OUT_OF_DEPARTMENT&quot;;</span>
+<span class="fc" id="L509">    	outOfDepartment.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+
+<span class="fc" id="L511">    	int outOfDepartmentCredits = 0;</span>
+<span class="fc bfc" id="L512" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">    		if (!i.course.id.startsWith(&quot;csci&quot;)) {</span>
+<span class="pc bpc" id="L514" title="1 of 2 branches missed.">    			if (checkSingleValidCourse(i)) {    				</span>
+<span class="fc" id="L515">    	    		outOfDepartment.details.courses.add(i); // Add a course</span>
+<span class="fc" id="L516">    				outOfDepartmentCredits += Integer.parseInt(i.course.numCredits);</span>
+    			}
+    		}
+    	}
+<span class="fc bfc" id="L520" title="All 2 branches covered.">    	outOfDepartment.passed = (outOfDepartmentCredits &gt;= 6);</span>
+<span class="fc" id="L521">    	result.add(outOfDepartment);</span>
+    	// --------------------------------------
+    	
+    	// Introduction to CS Research
+<span class="fc" id="L525">    	RequirementCheck introToCSResearch = new RequirementCheck();</span>
+<span class="fc" id="L526">    	introToCSResearch.name = &quot;INTRO_TO_RESEARCH&quot;;</span>
+<span class="fc" id="L527">    	introToCSResearch.details.courses = new ArrayList&lt;CourseTaken&gt; ();</span>
+    	
+<span class="fc bfc" id="L529" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L530" title="All 4 branches covered.">    		if (i.course.id.startsWith(&quot;csci8001&quot;) || i.course.id.startsWith(&quot;csci8002&quot;)) {</span>
+<span class="fc bfc" id="L531" title="All 2 branches covered.">    			if (checkSingleValidCourse(i)) {</span>
+    				// introToCSResearch.details.courses = new ArrayList&lt;CourseTaken&gt; ();
+<span class="fc" id="L533">    				introToCSResearch.details.courses.add(i);</span>
+    			}
+    		}
+    	}
+<span class="fc bfc" id="L537" title="All 2 branches covered.">    	introToCSResearch.passed = (introToCSResearch.details.courses.size() &gt;= 2);	</span>
+<span class="fc" id="L538">    	result.add(introToCSResearch);</span>
+    	
+    	// Milestone PHD
+<span class="fc" id="L541">    	RequirementCheck milestonesPHD = new RequirementCheck();</span>
+<span class="fc" id="L542">    	milestonesPHD.name = &quot;MILESTONES_PHD&quot;;</span>
+    	
+<span class="fc" id="L544">    	boolean milestonesPHDTemp = true;</span>
+<span class="pc bpc" id="L545" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.PRELIM_COMMITTEE_APPOINTED, milestonesPHD);</span>
+<span class="fc bfc" id="L546" title="All 4 branches covered.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.WRITTEN_PE_SUBMITTED, milestonesPHD);</span>
+<span class="pc bpc" id="L547" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.WRITTEN_PE_APPROVED, milestonesPHD);</span>
+<span class="pc bpc" id="L548" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.ORAL_PE_PASSED, milestonesPHD);</span>
+<span class="pc bpc" id="L549" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_SUBMITTED, milestonesPHD);</span>
+<span class="pc bpc" id="L550" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_APPROVED, milestonesPHD);</span>
+<span class="pc bpc" id="L551" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_COMMITTEE_APPOINTED, milestonesPHD);</span>
+<span class="pc bpc" id="L552" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.PROPOSAL_PASSED, milestonesPHD);</span>
+<span class="pc bpc" id="L553" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.GRADUATION_PACKET_REQUESTED, milestonesPHD);</span>
+<span class="pc bpc" id="L554" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_SUBMITTED, milestonesPHD);</span>
+<span class="pc bpc" id="L555" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_APPROVED, milestonesPHD);</span>
+<span class="pc bpc" id="L556" title="1 of 4 branches missed.">    	milestonesPHDTemp = milestonesPHDTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DEFENSE_PASSED, milestonesPHD);</span>
+    	
+<span class="fc" id="L558">    	milestonesPHD.passed = milestonesPHDTemp;</span>
+<span class="fc" id="L559">    	result.add(milestonesPHD);</span>
+    	
+<span class="fc bfc" id="L561" title="All 2 branches covered.">    	for (RequirementCheck i : result) {</span>
+<span class="fc bfc" id="L562" title="All 2 branches covered.">    		if (i.name == &quot;DEGREE_SOUGHT&quot;) continue;</span>
+<span class="fc bfc" id="L563" title="All 4 branches covered.">    		result.get(0).passed = result.get(0).passed &amp;&amp; i.passed;</span>
+    	}
+<span class="fc" id="L565">    }</span>
+    
+    // ----------------------------------------------------------
+    // Overall Check for MS_A
+    // ----------------------------------------------------------
+    
+    /**
+      * Performs the overall check for MS_A students
+      * @param userId the student to perform the MS_A check on
+      * @param currentCourses courses the student has taken
+      * @param currentMilestones milestones the student has completed
+      * @param result the list of RequirementChecks the student has completed - will be modified within function
+      */
+    private void checkMS_A(String userId, List&lt;CourseTaken&gt; currentCourses, List&lt;Milestone&gt; currentMilestones, List&lt;RequirementCheck&gt; result) throws Exception {
+<span class="fc" id="L579">    	checkDataExist();</span>
+    	
+    	// 31 credits in total, 16 CSci credits, 3 breath courses, CSci 8970
+<span class="fc" id="L582">    	checkCreditsRequirements(userId, currentCourses, 31, 16, 15, result);</span>
+<span class="fc" id="L583">    	checkSingleCourse(currentCourses, &quot;COLLOQUIUM&quot;, &quot;csci8970&quot;, 0, &quot;S&quot;, result);</span>
+    	
+    	// 10 Thesis Credits
+<span class="fc" id="L586">    	checkSingleCourse(currentCourses, &quot;THESIS_MS&quot;, &quot;csci8777&quot;, 10, &quot;S&quot;, result);</span>
+    	
+    	// PhD level credits
+    	// --------------------------------------
+<span class="fc" id="L590">    	RequirementCheck phdLevelCredits = new RequirementCheck();</span>
+<span class="fc" id="L591">    	phdLevelCredits.name = &quot;PHD_LEVEL_COURSES&quot;;</span>
+<span class="fc" id="L592">    	phdLevelCredits.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+
+<span class="fc" id="L594">    	int phdLevelCreditsCount = 0;</span>
+<span class="fc bfc" id="L595" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L596" title="All 6 branches covered.">    		if (i.course.id.startsWith(&quot;csci8&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8970&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8777&quot;)) {</span>
+<span class="pc bpc" id="L597" title="1 of 2 branches missed.">    			if (checkSingleValidCourse(i)) {</span>
+<span class="fc" id="L598">    				phdLevelCredits.details.courses.add(i); // Add a course</span>
+<span class="fc" id="L599">    				phdLevelCreditsCount += Integer.parseInt(i.course.numCredits);</span>
+    			}
+    		}
+    	}
+<span class="fc bfc" id="L603" title="All 2 branches covered.">    	phdLevelCredits.passed = (phdLevelCreditsCount &gt;= 3);</span>
+<span class="fc" id="L604">    	result.add(phdLevelCredits);</span>
+    	// --------------------------------------
+    	
+    	// Course Credits
+<span class="fc" id="L608">    	RequirementCheck courseCreditsRequirement = new RequirementCheck();</span>
+<span class="fc" id="L609">    	courseCreditsRequirement.name = &quot;COURSE_CREDITS&quot;;</span>
+<span class="fc" id="L610">    	courseCreditsRequirement.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+<span class="fc" id="L611">    	int courseCredits = 0;</span>
+    	
+<span class="fc bfc" id="L613" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L614" title="All 4 branches covered.">    		if (i.course.id.startsWith(&quot;csci&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8777&quot;)) {</span>
+<span class="pc bpc" id="L615" title="1 of 2 branches missed.">    			if (checkSingleValidCourse(i)) {</span>
+<span class="fc" id="L616">    	    		courseCreditsRequirement.details.courses.add(i); // Add a course</span>
+<span class="fc" id="L617">    	    		courseCredits += Integer.parseInt(i.course.numCredits);</span>
+    			}
+    		}
+    	}
+<span class="fc bfc" id="L621" title="All 2 branches covered.">    	courseCreditsRequirement.passed = (courseCredits &gt;= 22);</span>
+<span class="fc" id="L622">    	result.add(courseCreditsRequirement);</span>
+    	
+    	// Milestone MS_A
+<span class="fc" id="L625">    	RequirementCheck milestonesMS_A = new RequirementCheck();</span>
+<span class="fc" id="L626">    	milestonesMS_A.name = &quot;MILESTONES_MS_A&quot;;</span>
+<span class="fc" id="L627">    	milestonesMS_A.passed = false;</span>
+    	
+<span class="fc" id="L629">    	boolean milestonesMS_ATemp = true;</span>
+<span class="pc bpc" id="L630" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_SUBMITTED, milestonesMS_A);</span>
+<span class="pc bpc" id="L631" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_APPROVED, milestonesMS_A);</span>
+<span class="pc bpc" id="L632" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_COMMITTEE_APPOINTED, milestonesMS_A);</span>
+<span class="pc bpc" id="L633" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.GRADUATION_PACKET_REQUESTED, milestonesMS_A);</span>
+<span class="pc bpc" id="L634" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_SUBMITTED, milestonesMS_A);</span>
+<span class="pc bpc" id="L635" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.THESIS_APPROVED, milestonesMS_A);</span>
+<span class="pc bpc" id="L636" title="1 of 4 branches missed.">    	milestonesMS_ATemp = milestonesMS_ATemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DEFENSE_PASSED, milestonesMS_A);</span>
+    	
+<span class="fc" id="L638">    	milestonesMS_A.passed = milestonesMS_ATemp;</span>
+<span class="fc" id="L639">    	result.add(milestonesMS_A);</span>
+    	
+<span class="fc bfc" id="L641" title="All 2 branches covered.">    	for (RequirementCheck i : result) {</span>
+<span class="fc bfc" id="L642" title="All 2 branches covered.">    		if (i.name == &quot;DEGREE_SOUGHT&quot;) continue;</span>
+<span class="fc bfc" id="L643" title="All 4 branches covered.">    		result.get(0).passed = result.get(0).passed &amp;&amp; i.passed;</span>
+    	}
+<span class="fc" id="L645">    }</span>
+    
+    // ----------------------------------------------------------
+    // Overall Check for MS_B
+    // ----------------------------------------------------------
+    
+     /**
+      * Performs the overall check for MS_B students
+      * @param userId the student to perform the MS_B check on
+      * @param currentCourses courses the student has taken
+      * @param currentMilestones milestones the student has completed
+      * @param result the list of RequirementChecks the student has completed - will be modified within function
+      */
+    private void checkMS_B(String userId, List&lt;CourseTaken&gt; currentCourses, List&lt;Milestone&gt; currentMilestones, List&lt;RequirementCheck&gt; result) throws Exception {
+<span class="fc" id="L659">    	checkDataExist();</span>
+    	
+    	// 31 credits in total, 16 CSci credits, 3 breath courses, CSci 8970    	
+<span class="fc" id="L662">    	checkCreditsRequirements(userId, currentCourses, 31, 16, 15, result);</span>
+<span class="fc" id="L663">    	checkSingleCourse(currentCourses, &quot;COLLOQUIUM&quot;, &quot;csci8970&quot;, 0, &quot;S&quot;, result);</span>
+    	
+    	// Plan B project
+<span class="fc" id="L666">    	checkSingleCourse(currentCourses, &quot;PLAN_B_PROJECT&quot;, &quot;csci8760&quot;, 0, &quot;S&quot;, result);</span>
+    	
+    	// PhD level credits
+    	// --------------------------------------
+<span class="fc" id="L670">    	RequirementCheck phdLevelCredits = new RequirementCheck();</span>
+<span class="fc" id="L671">    	phdLevelCredits.name = &quot;PHD_LEVEL_COURSES&quot;;</span>
+<span class="fc" id="L672">    	phdLevelCredits.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+    	
+<span class="fc" id="L674">    	int phdLevelCreditsCount = 0;</span>
+<span class="fc bfc" id="L675" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L676" title="All 4 branches covered.">    		if (i.course.id.startsWith(&quot;csci8&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8970&quot;)) {</span>
+<span class="pc bpc" id="L677" title="1 of 2 branches missed.">    			if (checkSingleValidCourse(i)) {</span>
+<span class="fc" id="L678">    				phdLevelCredits.details.courses.add(i); // Add a course</span>
+<span class="fc" id="L679">    				phdLevelCreditsCount += Integer.parseInt(i.course.numCredits);</span>
+    			}
+    		}
+    	}
+<span class="fc bfc" id="L683" title="All 2 branches covered.">    	phdLevelCredits.passed = (phdLevelCreditsCount &gt;= 3);</span>
+<span class="fc" id="L684">    	result.add(phdLevelCredits);</span>
+    	// --------------------------------------
+    	
+    	// Milestone MS_B
+<span class="fc" id="L688">    	RequirementCheck milestonesMS_B = new RequirementCheck();</span>
+<span class="fc" id="L689">    	milestonesMS_B.name = &quot;MILESTONES_MS_B&quot;;</span>
+    	
+<span class="fc" id="L691">    	boolean milestonesMS_BTemp = true;</span>
+<span class="pc bpc" id="L692" title="1 of 4 branches missed.">    	milestonesMS_BTemp = milestonesMS_BTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_SUBMITTED, milestonesMS_B);</span>
+<span class="pc bpc" id="L693" title="1 of 4 branches missed.">    	milestonesMS_BTemp = milestonesMS_BTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_APPROVED, milestonesMS_B);</span>
+<span class="pc bpc" id="L694" title="1 of 4 branches missed.">    	milestonesMS_BTemp = milestonesMS_BTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.PROJECT_COMMITTEE_APPOINTED, milestonesMS_B);</span>
+<span class="pc bpc" id="L695" title="1 of 4 branches missed.">    	milestonesMS_BTemp = milestonesMS_BTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.GRADUATION_PACKET_REQUESTED, milestonesMS_B);</span>
+<span class="pc bpc" id="L696" title="1 of 4 branches missed.">    	milestonesMS_BTemp = milestonesMS_BTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DEFENSE_PASSED, milestonesMS_B);</span>
+    	
+<span class="fc" id="L698">    	milestonesMS_B.passed = milestonesMS_BTemp;</span>
+<span class="fc" id="L699">    	result.add(milestonesMS_B);</span>
+    	
+<span class="fc bfc" id="L701" title="All 2 branches covered.">    	for (RequirementCheck i : result) {</span>
+<span class="fc bfc" id="L702" title="All 2 branches covered.">    		if (i.name == &quot;DEGREE_SOUGHT&quot;) continue;</span>
+<span class="fc bfc" id="L703" title="All 4 branches covered.">    		result.get(0).passed = result.get(0).passed &amp;&amp; i.passed;</span>
+    	}
+<span class="fc" id="L705">    }</span>
+    
+    // ----------------------------------------------------------
+    // Overall Check for MS_C
+    // ----------------------------------------------------------
+    
+     /**
+      * Performs the overall check for MS_C students
+      * @param userId the student to perform the MS_C check on
+      * @param currentCourses courses the student has taken
+      * @param currentMilestones milestones the student has completed
+      * @param result the list of RequirementChecks the student has completed - will be modified within function
+      */
+    private void checkMS_C(String userId, List&lt;CourseTaken&gt; currentCourses, List&lt;Milestone&gt; currentMilestones, List&lt;RequirementCheck&gt; result) throws Exception {
+<span class="fc" id="L719">    	checkDataExist();</span>
+    	
+    	// 31 credits in total, 16 CSci credits, 3 breath courses, CSci 8970
+<span class="fc" id="L722">    	checkCreditsRequirements(userId, currentCourses, 31, 16, 15, result);</span>
+<span class="fc" id="L723">    	checkSingleCourse(currentCourses, &quot;COLLOQUIUM&quot;, &quot;csci8970&quot;, 0, &quot;S&quot;, result);</span>
+    	
+    	// PhD level credits
+    	// --------------------------------------
+<span class="fc" id="L727">    	RequirementCheck phdLevelCredits = new RequirementCheck();</span>
+<span class="fc" id="L728">    	phdLevelCredits.name = &quot;PHD_LEVEL_COURSES_PLANC&quot;;</span>
+<span class="fc" id="L729">    	phdLevelCredits.passed = false;</span>
+<span class="fc" id="L730">    	phdLevelCredits.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+
+<span class="fc bfc" id="L732" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L733" title="All 4 branches covered.">    		if (i.course.id.startsWith(&quot;csci8&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8970&quot;)) {</span>
+<span class="pc bpc" id="L734" title="1 of 2 branches missed.">    			if (checkSingleValidCourse(i)) {</span>
+<span class="fc bfc" id="L735" title="All 2 branches covered.">    				if (Integer.parseInt(i.course.numCredits) &gt;= 3){</span>
+<span class="fc" id="L736">    					phdLevelCredits.details.courses.add(i); // Add a course</span>
+    				}	
+    			}
+    		}
+    	}
+<span class="pc bpc" id="L741" title="1 of 4 branches missed.">    	phdLevelCredits.passed = (phdLevelCredits.details.courses == null) ? false : (phdLevelCredits.details.courses.size() &gt;= 2);</span>
+<span class="fc" id="L742">    	result.add(phdLevelCredits);</span>
+    	// --------------------------------------
+    	
+    	// Milestone MS_C
+<span class="fc" id="L746">    	RequirementCheck milestonesMS_C = new RequirementCheck();</span>
+<span class="fc" id="L747">    	milestonesMS_C.name = &quot;MILESTONES_MS_C&quot;;</span>
+<span class="fc" id="L748">    	milestonesMS_C.passed = false;</span>
+    	
+<span class="fc" id="L750">    	boolean milestonesMS_CTemp = true;</span>
+<span class="pc bpc" id="L751" title="1 of 4 branches missed.">    	milestonesMS_CTemp = milestonesMS_CTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_SUBMITTED, milestonesMS_C);</span>
+<span class="pc bpc" id="L752" title="1 of 4 branches missed.">    	milestonesMS_CTemp = milestonesMS_CTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.DPF_APPROVED, milestonesMS_C);</span>
+<span class="pc bpc" id="L753" title="1 of 4 branches missed.">    	milestonesMS_CTemp = milestonesMS_CTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.TRACKING_FORM_SUBMITTED, milestonesMS_C);</span>
+<span class="pc bpc" id="L754" title="1 of 4 branches missed.">    	milestonesMS_CTemp = milestonesMS_CTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.TRACKING_FORM_APPROVED, milestonesMS_C);</span>
+<span class="pc bpc" id="L755" title="1 of 4 branches missed.">    	milestonesMS_CTemp = milestonesMS_CTemp &amp;&amp; checkSingleMilestone(currentMilestones, Milestones_All_Plans.GRADUATION_PACKET_REQUESTED, milestonesMS_C);</span>
+    	
+<span class="fc" id="L757">    	milestonesMS_C.passed = milestonesMS_CTemp;</span>
+<span class="fc" id="L758">    	result.add(milestonesMS_C);</span>
+    	
+<span class="fc bfc" id="L760" title="All 2 branches covered.">    	for (RequirementCheck i : result) {</span>
+<span class="fc bfc" id="L761" title="All 2 branches covered.">    		if (i.name == &quot;DEGREE_SOUGHT&quot;) continue;</span>
+<span class="fc bfc" id="L762" title="All 4 branches covered.">    		result.get(0).passed = result.get(0).passed &amp;&amp; i.passed;</span>
+    	}
+<span class="fc" id="L764">    }</span>
+    
+    /** Check if a course is valid. i.e., above 5000 level and C- or above, or S.
+      * @param src the course to check
+      * @return boolean value indicating whether course is valid
+      */
+    private boolean checkSingleValidCourse(CourseTaken src) {
+<span class="fc" id="L771">    	int temp = 0;</span>
+<span class="fc bfc" id="L772" title="All 2 branches covered.">		while (!Character.isDigit(src.course.id.charAt(temp))) temp++;</span>
+<span class="pc bpc" id="L773" title="1 of 2 branches missed.">		if (src.course.id.charAt(temp) &lt; '5') return false;</span>
+		
+<span class="pc bpc" id="L775" title="1 of 8 branches missed.">		return (src.grade == Grade.A || src.grade == Grade.B || src.grade == Grade.C || src.grade == Grade.S);</span>
+    }
+    
+    /** Check if a single milestone exists in the list
+      * @param currentMilestones the list current milestones
+      * @param mil the milestone to check
+      * @param milestones the student has completed
+      * @return boolean value denoting whether the milestone is in the list
++     */
+    private boolean checkSingleMilestone(List&lt;Milestone&gt; currentMilestones, Milestones_All_Plans mil, RequirementCheck milestones) {
+<span class="pc bpc" id="L785" title="1 of 2 branches missed.">    	if (currentMilestones == null) {</span>
+<span class="nc" id="L786">    		return false;</span>
+    	}
+    	
+<span class="fc bfc" id="L789" title="All 2 branches covered.">    	if (milestones.details.milestones == null) milestones.details.milestones = new ArrayList&lt;Milestone&gt;();</span>
+<span class="fc bfc" id="L790" title="All 2 branches covered.">    	for (Milestone i : currentMilestones) {</span>
+<span class="fc bfc" id="L791" title="All 2 branches covered.">    		if (i.milestone == mil) {</span>
+<span class="fc" id="L792">    			milestones.details.milestones.add(i);</span>
+<span class="fc" id="L793">    			return true;</span>
+    		}
+    	}
+<span class="fc" id="L796">    	return false;</span>
+    }
+    
+    /**
+      * Check if a single course exists in the list
+      * checkSingleCourse(currentCourses, &quot;COLLOQUIUM&quot;, &quot;csci8970&quot;, 0, &quot;S&quot;, result);
+      * @param currentCourses the list of courses taken
+      * @param currentRequirement the current requirement to check against
+      * @param courseId id of the course to look for
+      * @param credits how many credits the course should have. 0 means there is no limit on this value
+      * @param grades the grade received in the course
+      * @param result the list of RequirementChecks the student has completed - will be modified within function
+      */
+    private void checkSingleCourse(List&lt;CourseTaken&gt; currentCourses, String currentRequirement, String courseId, int credits, String grades, List&lt;RequirementCheck&gt; result) {
+<span class="fc" id="L810">    	RequirementCheck currentRequirementCheck = new RequirementCheck();</span>
+<span class="fc" id="L811">    	currentRequirementCheck.name = currentRequirement;</span>
+<span class="fc" id="L812">    	currentRequirementCheck.passed = false;</span>
+<span class="fc" id="L813">    	currentRequirementCheck.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+    	
+<span class="pc bpc" id="L815" title="1 of 2 branches missed.">    	if (currentCourses == null) {</span>
+<span class="nc" id="L816">    		result.add(currentRequirementCheck);</span>
+<span class="nc" id="L817">    		return;</span>
+    	}
+    	
+<span class="fc bfc" id="L820" title="All 2 branches covered.">    	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L821" title="All 2 branches covered.">    		if (i.course.id.equals(courseId)) {</span>
+<span class="fc" id="L822">    			currentRequirementCheck.details.courses.add(i);</span>
+<span class="pc bpc" id="L823" title="1 of 2 branches missed.">    			if (grades.equals(&quot;S&quot;)) {</span>
+<span class="pc bpc" id="L824" title="1 of 2 branches missed.">    				if (i.grade == Grade.S) {</span>
+<span class="fc bfc" id="L825" title="All 2 branches covered.">    					if (credits &gt; 0) {</span>
+<span class="pc bpc" id="L826" title="1 of 2 branches missed.">    						currentRequirementCheck.passed = (Integer.parseInt(i.course.numCredits) &gt;= credits);</span>
+<span class="fc" id="L827">    					} else {</span>
+<span class="fc" id="L828">    						currentRequirementCheck.passed = true;</span>
+    					}
+    				}
+<span class="fc" id="L831">    			} else {</span>
+<span class="nc bnc" id="L832" title="All 6 branches missed.">    				if (i.grade == Grade.A || i.grade == Grade.B || i.grade == Grade.C) {</span>
+<span class="nc bnc" id="L833" title="All 2 branches missed.">    					if (credits &gt; 0) {</span>
+<span class="nc bnc" id="L834" title="All 2 branches missed.">    						currentRequirementCheck.passed = (Integer.parseInt(i.course.numCredits) &gt;= credits);</span>
+<span class="nc" id="L835">    					} else {</span>
+<span class="nc" id="L836">    						currentRequirementCheck.passed = true;</span>
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+<span class="fc" id="L843">    	result.add(currentRequirementCheck);</span>
+<span class="fc" id="L844">    }</span>
+    
+    /**
+      * Check course credits requirement
+      * @param userId the id of the student to check the credits requirement for
+      * @param currentCourses the list of courses the student has taken
+      * @param totalReq the number of credits required
+      * @param csciReq the number of CSCI credits required
+      * @param breathReq the number of breadth requirement credits required
+      * @param result the list of RequirementChecks for the student - will be modified within function
+      */
+    private void checkCreditsRequirements(String userId, List&lt;CourseTaken&gt; currentCourses, int totalReq, int csciReq, int breathReq, List&lt;RequirementCheck&gt; result) throws Exception {
+    	// Check all breadth and total credits requirement
+<span class="fc" id="L857">    	RequirementCheck breadthRequirement = new RequirementCheck();</span>
+<span class="fc" id="L858">    	breadthRequirement.name = &quot;BREADTH_REQUIREMENT_MS&quot;;</span>
+<span class="fc" id="L859">    	breadthRequirement.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+<span class="fc" id="L860">    	breadthRequirement.passed = false;</span>
+<span class="fc" id="L861">    	result.add(breadthRequirement);</span>
+    	
+<span class="fc" id="L863">    	RequirementCheck totalCreditsRequirement = new RequirementCheck();</span>
+<span class="fc" id="L864">    	totalCreditsRequirement.name = &quot;TOTAL_CREDITS&quot;;</span>
+<span class="fc" id="L865">    	totalCreditsRequirement.details.courses = new ArrayList&lt;CourseTaken&gt;();</span>
+<span class="fc" id="L866">    	totalCreditsRequirement.passed = false;</span>
+<span class="fc" id="L867">    	result.add(totalCreditsRequirement);</span>
+    	
+<span class="pc bpc" id="L869" title="1 of 2 branches missed.">    	if (currentCourses != null) {</span>
+<span class="fc" id="L870">        	int totalCredits = 0; // Total number of credits</span>
+<span class="fc" id="L871">        	int csciCredits = 0; // Total number of CSci credits</span>
+<span class="fc" id="L872">        	int breadthCredits = 0; // Total number of breath credits</span>
+<span class="fc" id="L873">        	int[] breadthCounts = new int[3]; // Check if at least one breath course in each area</span>
+<span class="fc" id="L874">        	breadthCounts[0] = 0; breadthCounts[1] = 0;breadthCounts[2] = 0;</span>
+        	
+<span class="fc bfc" id="L876" title="All 2 branches covered.">        	for (CourseTaken i : currentCourses) {</span>
+<span class="fc bfc" id="L877" title="All 8 branches covered.">        		if (i.grade != Grade.A &amp;&amp; i.grade != Grade.B &amp;&amp; i.grade != Grade.C &amp;&amp; i.grade != Grade.S) continue; // C- or above</span>
+        		// ***** Check if it is a 5000 level course
+<span class="fc" id="L879">        		int temp = 0;</span>
+<span class="fc bfc" id="L880" title="All 2 branches covered.">        		while (!Character.isDigit(i.course.id.charAt(temp))) temp++;</span>
+<span class="pc bpc" id="L881" title="1 of 2 branches missed.">        		if (i.course.id.charAt(temp) &lt; '5') continue;</span>
+        		// ***** END
+        		
+<span class="fc" id="L884">        		totalCreditsRequirement.details.courses.add(i);</span>
+<span class="fc" id="L885">        		totalCredits += Integer.parseInt(i.course.numCredits);</span>
+        		
+<span class="fc bfc" id="L887" title="All 6 branches covered.">        		if (i.course.id.startsWith(&quot;csci&quot;) &amp;&amp; !i.course.id.startsWith(&quot;csci8888&quot;)&amp;&amp; i.grade != Grade.S)  {</span>
+<span class="fc" id="L888">        			csciCredits += Integer.parseInt(i.course.numCredits);</span>
+        		}
+        		
+        		// Decide if it is a breath course
+<span class="fc bfc" id="L892" title="All 2 branches covered.">        		for (CourseMapping bcourse : courses) {</span>
+<span class="fc bfc" id="L893" title="All 2 branches covered.">        			if (bcourse.id.equals(i.course.id)) {</span>
+<span class="fc bfc" id="L894" title="All 2 branches covered.">        				if (bcourse.courseArea != null) {</span>
+<span class="fc" id="L895">        					breadthCredits += Integer.parseInt(i.course.numCredits);</span>
+<span class="pc bpc" id="L896" title="1 of 4 branches missed.">        					switch (bcourse.courseArea) {</span>
+        						case ARCHITECTURE_SYSTEMS_SOFTWARE:
+<span class="fc" id="L898">        							i.course.courseArea = CourseArea.ARCHITECTURE_SYSTEMS_SOFTWARE;</span>
+<span class="fc" id="L899">        							breadthRequirement.details.courses.add(i);</span>
+<span class="fc" id="L900">        							breadthCounts[0]++;</span>
+<span class="fc" id="L901">        							break;</span>
+        						case APPLICATIONS:
+<span class="fc" id="L903">        							i.course.courseArea = CourseArea.APPLICATIONS;</span>
+<span class="fc" id="L904">        							breadthRequirement.details.courses.add(i);</span>
+<span class="fc" id="L905">        							breadthCounts[1]++;</span>
+<span class="fc" id="L906">        							break;</span>
+        						case THEORY_ALGORITHMS:
+<span class="fc" id="L908">        							i.course.courseArea = CourseArea.THEORY_ALGORITHMS;</span>
+<span class="fc" id="L909">        							breadthRequirement.details.courses.add(i);</span>
+<span class="fc" id="L910">        							breadthCounts[2]++;</span>
+<span class="fc" id="L911">        							break;</span>
+        						default:
+<span class="nc" id="L913">        							throw new ExFatalError(); // Should not be here;</span>
+        					}
+        				}
+        			}
+        		}
+        	}
+        	
+<span class="pc bpc" id="L920" title="3 of 8 branches missed.">        	breadthRequirement.passed = (breadthCredits &gt;= breathReq) &amp;&amp; (breadthCounts[0] &gt; 0 &amp;&amp; breadthCounts[1] &gt; 0 &amp;&amp; breadthCounts[2] &gt; 0);</span>
+<span class="pc bpc" id="L921" title="1 of 4 branches missed.">        	totalCreditsRequirement.passed = (totalCredits &gt;= totalReq) &amp;&amp; (csciCredits &gt;= csciReq);</span>
+    	}
+    	
+    	// Calculate all kinds of GPAs
+<span class="fc" id="L925">    	DegreeSought degreeTemp = getTranscript(userId).getDegreeSought();</span>
+    	// Overall GPA
+<span class="fc" id="L927">    	RequirementCheck overAllGPA = new RequirementCheck();</span>
+<span class="fc bfc" id="L928" title="All 2 branches covered.">    	overAllGPA.name = (degreeTemp == DegreeSought.PHD) ? &quot;OVERALL_GPA_PHD&quot; : &quot;OVERALL_GPA_MS&quot;;</span>
+<span class="fc" id="L929">    	overAllGPA.passed = false;</span>
+    	
+<span class="fc" id="L931">    	overAllGPA.details.gpa = calculateGPA(userId, &quot;OVERALL&quot;);</span>
+<span class="fc bfc" id="L932" title="All 2 branches covered.">    	overAllGPA.passed = (calculateGPA(userId, &quot;OVERALL&quot;) &gt;= calculateRequiredGPALevel(userId, &quot;OVERALL&quot;));</span>
+    	
+<span class="fc" id="L934">    	result.add(overAllGPA);</span>
+
+    	// In-program GPA
+<span class="fc" id="L937">    	RequirementCheck inProgramGPA = new RequirementCheck();</span>
+<span class="fc bfc" id="L938" title="All 2 branches covered.">    	inProgramGPA.name = (degreeTemp == DegreeSought.PHD) ? &quot;IN_PROGRAM_GPA_PHD&quot; : &quot;IN_PROGRAM_GPA_MS&quot;;</span>
+<span class="fc" id="L939">    	inProgramGPA.passed = false;</span>
+    	
+<span class="fc" id="L941">    	inProgramGPA.details.gpa = calculateGPA(userId, &quot;IN_PROGRAM&quot;);</span>
+<span class="fc bfc" id="L942" title="All 2 branches covered.">    	inProgramGPA.passed = (calculateGPA(userId, &quot;IN_PROGRAM&quot;) &gt;= calculateRequiredGPALevel(userId, &quot;IN_PROGRAM&quot;));</span>
+    	
+<span class="fc" id="L944">    	result.add(inProgramGPA);</span>
+    	
+<span class="fc" id="L946">    	breadthRequirement.details.gpa = calculateGPA(userId, &quot;BREADTH_REQUIREMENT&quot;);</span>
+<span class="fc" id="L947">    	totalCreditsRequirement.details.gpa = overAllGPA.details.gpa;</span>
+    	
+    	// Breadth GPA
+<span class="fc bfc" id="L950" title="All 2 branches covered.">    	if (calculateGPA(userId, &quot;BREADTH_REQUIREMENT&quot;) &lt; calculateRequiredGPALevel(userId, &quot;BREADTH_REQUIREMENT&quot;)) {</span>
+<span class="fc" id="L951">    		breadthRequirement.passed = false;</span>
+    	}
+<span class="fc" id="L953">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</div></body></html>

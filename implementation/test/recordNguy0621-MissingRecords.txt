@@ -1,0 +1,66 @@
+[
+  {
+    "student": {
+      "id": "nguy0621",
+      "firstName": "Luan",
+      "lastName": "Nguyen"
+    },
+    "department": "COMPUTER_SCIENCE",
+    "degreeSought": "PHD",
+    "termBegan": {
+      "semester": "SPRING",
+      "year": 2008
+    },
+    "advisors": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "William",
+        "lastName": "Schuler"
+      }
+    ],
+    "committee": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Maria",
+        "lastName": "Gini"
+      },
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Daniel",
+        "lastName": "Boley"
+      },
+      {
+        "department": "MATH",
+        "firstName": "Richard",
+        "lastName": "McGehee"
+      }
+    ],
+    "coursesTaken": [
+    {
+        "course": {
+          "name": "Naptime",
+          "id": "nap5234",
+          "numCredits": "5"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2008
+        },
+        "grade": "B"
+      }
+    ],
+    "milestonesSet": [
+      {
+        "milestone": "PRELIM_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      }
+    ],
+    "notes": [
+      "note1",
+      "note2"
+    ]
+  }
+]

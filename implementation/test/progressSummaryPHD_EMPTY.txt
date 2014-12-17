@@ -1,0 +1,111 @@
+{
+  "student": {
+    "id": "group15PHD_EMPTY",
+    "firstName": "5801",
+    "lastName": "group15"
+  },
+  "department": "COMPUTER_SCIENCE",
+  "degreeSought": "PHD",
+  "termBegan": {
+    "semester": "FALL",
+    "year": 2013
+  },
+  "advisors": [
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Mats",
+      "lastName": "Heimdahl"
+    }
+  ],
+  "committee": [
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Maria",
+      "lastName": "Gini"
+    },
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Daniel",
+      "lastName": "Boley"
+    },
+    {
+      "department": "MATH",
+      "firstName": "Richard",
+      "lastName": "McGehee"
+    }
+  ],
+  "requirementCheckResults": [
+    {
+      "name": "DEGREE_SOUGHT",
+      "passed": false,
+      "details": {
+        "notes": []
+      }
+    },
+    {
+      "name": "BREADTH_REQUIREMENT_MS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0,
+        "courses": []
+      }
+    },
+    {
+      "name": "TOTAL_CREDITS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0,
+        "courses": []
+      }
+    },
+    {
+      "name": "OVERALL_GPA_PHD",
+      "passed": false,
+      "details": {
+        "gpa": 0.0
+      }
+    },
+    {
+      "name": "IN_PROGRAM_GPA_PHD",
+      "passed": false,
+      "details": {
+        "gpa": 0.0
+      }
+    },
+    {
+      "name": "COLLOQUIUM",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "THESIS_PHD",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "OUT_OF_DEPARTMENT",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "INTRO_TO_RESEARCH",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "MILESTONES_PHD",
+      "passed": false,
+      "details": {
+        "milestones": []
+      }
+    }
+  ]
+}

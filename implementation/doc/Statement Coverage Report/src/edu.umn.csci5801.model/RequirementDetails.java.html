@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>RequirementDetails.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</a> &gt; <a href="../../index.html" class="el_group">GRADS</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.umn.csci5801.model</a> &gt; <span class="el_source">RequirementDetails.java</span></div><h1>RequirementDetails.java</h1><pre class="source lang-java linenums">/**
+ * RequirementDetails
+ */
+
+package edu.umn.csci5801.model;
+
+import java.util.List;
+
+import edu.umn.csci5801.model.Milestone;
+import edu.umn.csci5801.model.CourseTaken;
+
+/**
+ * Details of a specific requirement
+ */
+
+public class RequirementDetails {
+    
+    public Double gpa;
+    public List&lt;CourseTaken&gt; courses;
+    public List&lt;Milestone&gt; milestones;
+    public List&lt;String&gt; notes;
+    
+<span class="fc" id="L23">    public RequirementDetails(){</span>
+    	
+<span class="fc" id="L25">    }</span>
+
+<span class="nc" id="L27">    public RequirementDetails(double gpa, List&lt;CourseTaken&gt; courses, List&lt;Milestone&gt; milestones) {</span>
+<span class="nc" id="L28">        this.gpa = gpa;</span>
+<span class="nc" id="L29">        this.courses = courses;</span>
+<span class="nc" id="L30">        this.milestones = milestones;</span>
+<span class="nc" id="L31">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</div></body></html>

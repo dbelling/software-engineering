@@ -1,0 +1,879 @@
+[
+  {
+    "student": {
+      "id": "group15PHD_PASSED",
+      "firstName": "5801",
+      "lastName": "group15"
+    },
+    "department": "COMPUTER_SCIENCE",
+    "degreeSought": "PHD",
+    "termBegan": {
+      "semester": "FALL",
+      "year": 2013
+    },
+    "advisors": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Mats",
+        "lastName": "Heimdahl"
+      }
+    ],
+    "committee": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Maria",
+        "lastName": "Gini"
+      },
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Daniel",
+        "lastName": "Boley"
+      },
+      {
+        "department": "MATH",
+        "firstName": "Richard",
+        "lastName": "McGehee"
+      }
+    ],
+    "coursesTaken": [
+    {
+        "course": {
+          "name": "Artificial Intelligence I",
+          "id": "csci5511",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science I",
+          "id": "csci8001",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Special Advanced Topics in Computer Science",
+          "id": "csci8980",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "B"
+      },
+      {
+        "course": {
+          "name": "Practial University Teaching for Non-Native Speakers",
+          "id": "grad5105",
+          "numCredits": "2"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Computer Science Colloquium",
+          "id": "csci8970",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science II",
+          "id": "csci8002",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Foundations of Advanced Networking",
+          "id": "csci5221",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Advanced Algorithms and Data Structures",
+          "id": "csci5421",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Advanced Computer Networks",
+          "id": "csci8211",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Machine Learning",
+          "id": "csci5521",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Software Engineering",
+          "id": "csci5801",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Writing",
+          "id": "writ5051",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Presentation",
+          "id": "writ5052",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Thesis PhD",
+          "id": "csci8888",
+          "numCredits": "24"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      }
+    ],
+    "milestonesSet": [
+      {
+        "milestone": "PRELIM_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "ORAL_PE_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "PROPOSAL_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "GRADUATION_PACKET_REQUESTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DEFENSE_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      }
+    ],
+    "notes": [
+      "This guy shall pass.",
+      "note2"
+    ]
+  },
+  {
+    "student": {
+      "id": "group15PHD_FAILED1",
+      "firstName": "5801",
+      "lastName": "group15"
+    },
+    "department": "COMPUTER_SCIENCE",
+    "degreeSought": "PHD",
+    "termBegan": {
+      "semester": "FALL",
+      "year": 2013
+    },
+    "advisors": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Mats",
+        "lastName": "Heimdahl"
+      }
+    ],
+    "committee": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Maria",
+        "lastName": "Gini"
+      },
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Daniel",
+        "lastName": "Boley"
+      },
+      {
+        "department": "MATH",
+        "firstName": "Richard",
+        "lastName": "McGehee"
+      }
+    ],
+    "coursesTaken": [
+    {
+        "course": {
+          "name": "Artificial Intelligence I",
+          "id": "csci5511",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science I",
+          "id": "csci8001",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Special Advanced Topics in Computer Science",
+          "id": "csci8980",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "B"
+      },
+      {
+        "course": {
+          "name": "Practial University Teaching for Non-Native Speakers",
+          "id": "grad5105",
+          "numCredits": "2"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Computer Science Colloquium",
+          "id": "csci8970",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science II",
+          "id": "csci8002",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Foundations of Advanced Networking",
+          "id": "csci5221",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Advanced Computer Networks",
+          "id": "csci8211",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Machine Learning",
+          "id": "csci5521",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Software Engineering",
+          "id": "csci5801",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Writing",
+          "id": "writ5051",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Presentation",
+          "id": "writ5052",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      }
+    ],
+    "milestonesSet": [
+      {
+        "milestone": "PRELIM_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "ORAL_PE_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "PROPOSAL_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "GRADUATION_PACKET_REQUESTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DEFENSE_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      }
+    ],
+    "notes": [
+      "This guy shall fail.",
+      "note2"
+    ]
+  },
+  {
+    "student": {
+      "id": "group15PHD_FAILED2",
+      "firstName": "5801",
+      "lastName": "group15"
+    },
+    "department": "COMPUTER_SCIENCE",
+    "degreeSought": "PHD",
+    "termBegan": {
+      "semester": "FALL",
+      "year": 2013
+    },
+    "advisors": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Mats",
+        "lastName": "Heimdahl"
+      }
+    ],
+    "committee": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Maria",
+        "lastName": "Gini"
+      },
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Daniel",
+        "lastName": "Boley"
+      },
+      {
+        "department": "MATH",
+        "firstName": "Richard",
+        "lastName": "McGehee"
+      }
+    ],
+    "coursesTaken": [
+    {
+        "course": {
+          "name": "Artificial Intelligence I",
+          "id": "csci5511",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science I",
+          "id": "csci8001",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Special Advanced Topics in Computer Science",
+          "id": "csci8980",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "B"
+      },
+      {
+        "course": {
+          "name": "Practial University Teaching for Non-Native Speakers",
+          "id": "grad5105",
+          "numCredits": "2"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2013
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Computer Science Colloquium",
+          "id": "csci8970",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Introduction to Research in Computer Science II",
+          "id": "csci8002",
+          "numCredits": "1"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Foundations of Advanced Networking",
+          "id": "csci5221",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Advanced Algorithms and Data Structures",
+          "id": "csci5421",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Advanced Computer Networks",
+          "id": "csci8211",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "SPRING",
+          "year": 2014
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Introduction to Machine Learning",
+          "id": "csci5521",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Software Engineering",
+          "id": "csci5801",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "A"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Writing",
+          "id": "writ5051",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      },
+      {
+        "course": {
+          "name": "Graduate Research Presentation",
+          "id": "writ5052",
+          "numCredits": "3"
+        },
+        "term": {
+          "semester": "FALL",
+          "year": 2015
+        },
+        "grade": "S"
+      }
+    ],
+    "milestonesSet": [
+      {
+        "milestone": "PRELIM_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "WRITTEN_PE_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "ORAL_PE_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_SUBMITTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "DPF_APPROVED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "THESIS_COMMITTEE_APPOINTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "PROPOSAL_PASSED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      },
+      {
+        "milestone": "GRADUATION_PACKET_REQUESTED",
+        "term": {
+          "semester": "FALL",
+          "year": 2014
+        }
+      }
+    ],
+    "notes": [
+      "This guy shall fail.",
+      "note2"
+    ]
+  },
+  {
+    "student": {
+      "id": "group15PHD_EMPTY",
+      "firstName": "5801",
+      "lastName": "group15"
+    },
+    "department": "COMPUTER_SCIENCE",
+    "degreeSought": "PHD",
+    "termBegan": {
+      "semester": "FALL",
+      "year": 2013
+    },
+    "advisors": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Mats",
+        "lastName": "Heimdahl"
+      }
+    ],
+    "committee": [
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Maria",
+        "lastName": "Gini"
+      },
+      {
+        "department": "COMPUTER_SCIENCE",
+        "firstName": "Daniel",
+        "lastName": "Boley"
+      },
+      {
+        "department": "MATH",
+        "firstName": "Richard",
+        "lastName": "McGehee"
+      }
+    ],
+    "coursesTaken": [
+    ],
+    "milestonesSet": [
+    ],
+    "notes": [
+    ]
+  }
+]

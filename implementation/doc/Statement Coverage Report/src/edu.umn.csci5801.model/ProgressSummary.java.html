@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>ProgressSummary.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</a> &gt; <a href="../../index.html" class="el_group">GRADS</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.umn.csci5801.model</a> &gt; <span class="el_source">ProgressSummary.java</span></div><h1>ProgressSummary.java</h1><pre class="source lang-java linenums">/**
+ * ProgressSummary
+ */
+
+package edu.umn.csci5801.model;
+
+import java.util.List;
+import edu.umn.csci5801.model.DegreeSought;
+import edu.umn.csci5801.model.Department;
+import edu.umn.csci5801.model.Professor;
+import edu.umn.csci5801.model.Student;
+import edu.umn.csci5801.model.Term;
+
+/**
+ * Progress summary for a student
+ */
+
+<span class="fc" id="L18">public class ProgressSummary {</span>
+
+    private Student student;
+    private Department department;
+    private DegreeSought degreeSought;
+    private Term termBegan;
+    private List&lt;Professor&gt; advisors;
+    private List&lt;Professor&gt; committee;
+    private List&lt;RequirementCheck&gt; requirementCheckResults;
+    private List&lt;String&gt; notes;
+    
+    public void setStudent(Student student) {
+<span class="fc" id="L30">        this.student = student;</span>
+<span class="fc" id="L31">    }</span>
+
+    public Student getStudent() {
+<span class="fc" id="L34">        return student;</span>
+    }
+
+    public void setDepartment(Department department) {
+<span class="fc" id="L38">        this.department = department;</span>
+<span class="fc" id="L39">    }</span>
+
+    public Department getDepartment() {
+<span class="fc" id="L42">        return department;</span>
+    }
+
+    public void setDegreeSought(DegreeSought degreeSought) {
+<span class="fc" id="L46">        this.degreeSought = degreeSought;</span>
+<span class="fc" id="L47">    }</span>
+
+    public DegreeSought getDegreeSought() {
+<span class="fc" id="L50">        return degreeSought;</span>
+    }
+
+    public void setTerm(Term term) {
+<span class="fc" id="L54">        this.termBegan = term;</span>
+<span class="fc" id="L55">    }</span>
+
+    public Term getTerm() {
+<span class="fc" id="L58">        return termBegan;</span>
+    }
+
+    public void setAdvisors(List&lt;Professor&gt; advisors) {
+<span class="fc" id="L62">        this.advisors = advisors;</span>
+<span class="fc" id="L63">    }</span>
+
+    public List&lt;Professor&gt; getAdvisors() {
+<span class="fc" id="L66">        return advisors;</span>
+    }
+
+    public void setCommittee(List&lt;Professor&gt; committee) {
+<span class="fc" id="L70">        this.committee = committee;</span>
+<span class="fc" id="L71">    }</span>
+
+    public List&lt;Professor&gt; getCommittee() {
+<span class="fc" id="L74">        return committee;</span>
+    }
+
+    public void setRequirementCheckResults(List&lt;RequirementCheck&gt; reqCheckResults) {
+<span class="fc" id="L78">        this.requirementCheckResults = reqCheckResults;</span>
+<span class="fc" id="L79">    }</span>
+
+    public List&lt;RequirementCheck&gt; getRequirementCheckResults() {
+<span class="fc" id="L82">        return requirementCheckResults;</span>
+    }
+
+    public void setNotes(List&lt;String&gt; notes) {
+<span class="nc" id="L86">        this.notes = notes;</span>
+<span class="nc" id="L87">    }</span>
+
+    public List&lt;String&gt; getNotes() {
+<span class="nc" id="L90">        return notes;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.2.201409121644</span>GRADSTestDriver (Dec 13, 2014 8:02:03 PM)</div></body></html>

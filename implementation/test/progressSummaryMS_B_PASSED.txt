@@ -1,0 +1,458 @@
+{
+  "student": {
+    "id": "group15MS_B_PASSED",
+    "firstName": "5801",
+    "lastName": "group15"
+  },
+  "department": "COMPUTER_SCIENCE",
+  "degreeSought": "MS_B",
+  "termBegan": {
+    "semester": "FALL",
+    "year": 2013
+  },
+  "advisors": [
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Mats",
+      "lastName": "Heimdahl"
+    }
+  ],
+  "committee": [
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Maria",
+      "lastName": "Gini"
+    },
+    {
+      "department": "COMPUTER_SCIENCE",
+      "firstName": "Daniel",
+      "lastName": "Boley"
+    },
+    {
+      "department": "MATH",
+      "firstName": "Richard",
+      "lastName": "McGehee"
+    }
+  ],
+  "requirementCheckResults": [
+    {
+      "name": "DEGREE_SOUGHT",
+      "passed": true,
+      "details": {
+        "notes": [
+          "This guy shall pass.",
+          "note2"
+        ]
+      }
+    },
+    {
+      "name": "BREADTH_REQUIREMENT_MS",
+      "passed": true,
+      "details": {
+        "gpa": 4.0,
+        "courses": [
+          {
+            "course": {
+              "name": "Artificial Intelligence I",
+              "id": "csci5511",
+              "numCredits": "3",
+              "courseArea": "APPLICATIONS"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Foundations of Advanced Networking",
+              "id": "csci5221",
+              "numCredits": "3",
+              "courseArea": "ARCHITECTURE_SYSTEMS_SOFTWARE"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Advanced Algorithms and Data Structures",
+              "id": "csci5421",
+              "numCredits": "3",
+              "courseArea": "THEORY_ALGORITHMS"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Introduction to Machine Learning",
+              "id": "csci5521",
+              "numCredits": "3",
+              "courseArea": "APPLICATIONS"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Software Engineering",
+              "id": "csci5801",
+              "numCredits": "3",
+              "courseArea": "ARCHITECTURE_SYSTEMS_SOFTWARE"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "A"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TOTAL_CREDITS",
+      "passed": true,
+      "details": {
+        "gpa": 3.869565217391304,
+        "courses": [
+          {
+            "course": {
+              "name": "Artificial Intelligence I",
+              "id": "csci5511",
+              "numCredits": "3",
+              "courseArea": "APPLICATIONS"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Introduction to Research in Computer Science I",
+              "id": "csci8001",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Special Advanced Topics in Computer Science",
+              "id": "csci8980",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "B"
+          },
+          {
+            "course": {
+              "name": "Plan B Project",
+              "id": "csci8760",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "S"
+          },
+          {
+            "course": {
+              "name": "Computer Science Colloquium",
+              "id": "csci8970",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "S"
+          },
+          {
+            "course": {
+              "name": "Introduction to Research in Computer Science II",
+              "id": "csci8002",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Foundations of Advanced Networking",
+              "id": "csci5221",
+              "numCredits": "3",
+              "courseArea": "ARCHITECTURE_SYSTEMS_SOFTWARE"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Advanced Algorithms and Data Structures",
+              "id": "csci5421",
+              "numCredits": "3",
+              "courseArea": "THEORY_ALGORITHMS"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Advanced Computer Networks",
+              "id": "csci8211",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Introduction to Machine Learning",
+              "id": "csci5521",
+              "numCredits": "3",
+              "courseArea": "APPLICATIONS"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Software Engineering",
+              "id": "csci5801",
+              "numCredits": "3",
+              "courseArea": "ARCHITECTURE_SYSTEMS_SOFTWARE"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Graduate Research Writing",
+              "id": "writ5051",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "S"
+          },
+          {
+            "course": {
+              "name": "Graduate Research Presentation",
+              "id": "writ5052",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2015
+            },
+            "grade": "S"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OVERALL_GPA_MS",
+      "passed": true,
+      "details": {
+        "gpa": 3.869565217391304
+      }
+    },
+    {
+      "name": "IN_PROGRAM_GPA_MS",
+      "passed": true,
+      "details": {
+        "gpa": 3.869565217391304
+      }
+    },
+    {
+      "name": "COLLOQUIUM",
+      "passed": true,
+      "details": {
+        "courses": [
+          {
+            "course": {
+              "name": "Computer Science Colloquium",
+              "id": "csci8970",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "S"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PLAN_B_PROJECT",
+      "passed": true,
+      "details": {
+        "courses": [
+          {
+            "course": {
+              "name": "Plan B Project",
+              "id": "csci8760",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "S"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PHD_LEVEL_COURSES",
+      "passed": true,
+      "details": {
+        "courses": [
+          {
+            "course": {
+              "name": "Introduction to Research in Computer Science I",
+              "id": "csci8001",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Special Advanced Topics in Computer Science",
+              "id": "csci8980",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "B"
+          },
+          {
+            "course": {
+              "name": "Plan B Project",
+              "id": "csci8760",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "FALL",
+              "year": 2013
+            },
+            "grade": "S"
+          },
+          {
+            "course": {
+              "name": "Introduction to Research in Computer Science II",
+              "id": "csci8002",
+              "numCredits": "1"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          },
+          {
+            "course": {
+              "name": "Advanced Computer Networks",
+              "id": "csci8211",
+              "numCredits": "3"
+            },
+            "term": {
+              "semester": "SPRING",
+              "year": 2014
+            },
+            "grade": "A"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MILESTONES_MS_B",
+      "passed": true,
+      "details": {
+        "milestones": [
+          {
+            "milestone": "DPF_SUBMITTED",
+            "term": {
+              "semester": "FALL",
+              "year": 2014
+            }
+          },
+          {
+            "milestone": "DPF_APPROVED",
+            "term": {
+              "semester": "FALL",
+              "year": 2014
+            }
+          },
+          {
+            "milestone": "PROJECT_COMMITTEE_APPOINTED",
+            "term": {
+              "semester": "FALL",
+              "year": 2014
+            }
+          },
+          {
+            "milestone": "GRADUATION_PACKET_REQUESTED",
+            "term": {
+              "semester": "FALL",
+              "year": 2014
+            }
+          },
+          {
+            "milestone": "DEFENSE_PASSED",
+            "term": {
+              "semester": "FALL",
+              "year": 2014
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

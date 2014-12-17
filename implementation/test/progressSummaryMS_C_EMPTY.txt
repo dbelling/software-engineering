@@ -1,0 +1,78 @@
+{
+  "student": {
+    "id": "group15MS_C_EMPTY",
+    "firstName": "Susie",
+    "lastName": "Advisor-and-committeeless"
+  },
+  "department": "COMPUTER_SCIENCE",
+  "degreeSought": "MS_C",
+  "termBegan": {
+    "semester": "FALL",
+    "year": 2013
+  },
+  "advisors": [],
+  "committee": [],
+  "requirementCheckResults": [
+    {
+      "name": "DEGREE_SOUGHT",
+      "passed": false,
+      "details": {
+        "notes": [
+          "This guy shall pass.",
+          "note2"
+        ]
+      }
+    },
+    {
+      "name": "BREADTH_REQUIREMENT_MS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0,
+        "courses": []
+      }
+    },
+    {
+      "name": "TOTAL_CREDITS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0,
+        "courses": []
+      }
+    },
+    {
+      "name": "OVERALL_GPA_MS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0
+      }
+    },
+    {
+      "name": "IN_PROGRAM_GPA_MS",
+      "passed": false,
+      "details": {
+        "gpa": 0.0
+      }
+    },
+    {
+      "name": "COLLOQUIUM",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "PHD_LEVEL_COURSES_PLANC",
+      "passed": false,
+      "details": {
+        "courses": []
+      }
+    },
+    {
+      "name": "MILESTONES_MS_C",
+      "passed": false,
+      "details": {
+        "milestones": []
+      }
+    }
+  ]
+}
